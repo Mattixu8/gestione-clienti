@@ -3,21 +3,13 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+  IOSModal,
+  IOSModalContent,
+  IOSModalHeader,
+  IOSModalTitle,
+  IOSModalBody,
+} from "@/components/ui/ios-modal";
+import { IOSAlert } from "@/components/ui/ios-alert";
 import { ArrowLeft, Phone, Mail, Calendar, Pencil, Trash2, Plus, ClipboardList, Loader2 } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { ClientForm } from "@/components/clients/ClientForm";
@@ -79,7 +71,7 @@ export default function ClientDetail() {
       <AppLayout>
         <div className="text-center py-12">
           <p className="text-muted-foreground">Cliente non trovato</p>
-          <Button className="mt-4" asChild>
+          <Button className="mt-4 rounded-xl" asChild>
             <Link to="/clients">Torna ai clienti</Link>
           </Button>
         </div>
@@ -92,7 +84,7 @@ export default function ClientDetail() {
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="icon" asChild>
+          <Button variant="ghost" size="icon" asChild className="rounded-xl">
             <Link to="/clients">
               <ArrowLeft className="h-5 w-5" />
             </Link>
@@ -106,13 +98,13 @@ export default function ClientDetail() {
             </p>
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="icon" onClick={() => setShowEditForm(true)}>
+            <Button variant="outline" size="icon" onClick={() => setShowEditForm(true)} className="rounded-xl">
               <Pencil className="h-4 w-4" />
             </Button>
             <Button
               variant="outline"
               size="icon"
-              className="text-destructive hover:text-destructive"
+              className="text-destructive hover:text-destructive rounded-xl"
               onClick={() => setShowDeleteAlert(true)}
             >
               <Trash2 className="h-4 w-4" />
@@ -121,7 +113,7 @@ export default function ClientDetail() {
         </div>
 
         {/* Client Info */}
-        <Card>
+        <Card className="rounded-2xl">
           <CardHeader>
             <CardTitle className="text-lg">Informazioni</CardTitle>
           </CardHeader>
@@ -158,10 +150,10 @@ export default function ClientDetail() {
         </Card>
 
         {/* Treatment History */}
-        <Card>
+        <Card className="rounded-2xl">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-lg">Storico Trattamenti</CardTitle>
-            <Button size="sm" onClick={() => setShowSessionForm(true)}>
+            <Button size="sm" onClick={() => setShowSessionForm(true)} className="rounded-xl">
               <Plus className="h-4 w-4 mr-2" />
               Nuova sessione
             </Button>
@@ -190,57 +182,50 @@ export default function ClientDetail() {
         </Card>
       </div>
 
-      {/* Edit Client Dialog */}
-      <Dialog open={showEditForm} onOpenChange={setShowEditForm}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Modifica Cliente</DialogTitle>
-          </DialogHeader>
-          <ClientForm
-            client={client}
-            onSubmit={handleUpdate}
-            onCancel={() => setShowEditForm(false)}
-            isLoading={updateClient.isPending}
-          />
-        </DialogContent>
-      </Dialog>
+      {/* Edit Client iOS Modal */}
+      <IOSModal open={showEditForm} onOpenChange={setShowEditForm}>
+        <IOSModalContent>
+          <IOSModalHeader onClose={() => setShowEditForm(false)}>
+            <IOSModalTitle>Modifica Cliente</IOSModalTitle>
+          </IOSModalHeader>
+          <IOSModalBody>
+            <ClientForm
+              client={client}
+              onSubmit={handleUpdate}
+              onCancel={() => setShowEditForm(false)}
+              isLoading={updateClient.isPending}
+            />
+          </IOSModalBody>
+        </IOSModalContent>
+      </IOSModal>
 
-      {/* Delete Confirmation */}
-      <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Eliminare il cliente?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Questa azione eliminerà definitivamente il cliente e tutto il suo storico trattamenti.
-              L'operazione non può essere annullata.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Annulla</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDelete}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            >
-              Elimina
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {/* Delete Confirmation iOS Alert */}
+      <IOSAlert
+        open={showDeleteAlert}
+        onOpenChange={setShowDeleteAlert}
+        title="Eliminare il cliente?"
+        description="Questa azione eliminerà definitivamente il cliente e tutto il suo storico trattamenti. L'operazione non può essere annullata."
+        confirmText="Elimina"
+        onConfirm={handleDelete}
+        destructive
+      />
 
-      {/* New Session Dialog */}
-      <Dialog open={showSessionForm} onOpenChange={setShowSessionForm}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Nuova Sessione</DialogTitle>
-          </DialogHeader>
-          <SessionForm
-            defaultClientId={id}
-            onSubmit={handleCreateSession}
-            onCancel={() => setShowSessionForm(false)}
-            isLoading={createSession.isPending}
-          />
-        </DialogContent>
-      </Dialog>
+      {/* New Session iOS Modal */}
+      <IOSModal open={showSessionForm} onOpenChange={setShowSessionForm}>
+        <IOSModalContent>
+          <IOSModalHeader onClose={() => setShowSessionForm(false)}>
+            <IOSModalTitle>Nuova Sessione</IOSModalTitle>
+          </IOSModalHeader>
+          <IOSModalBody>
+            <SessionForm
+              defaultClientId={id}
+              onSubmit={handleCreateSession}
+              onCancel={() => setShowSessionForm(false)}
+              isLoading={createSession.isPending}
+            />
+          </IOSModalBody>
+        </IOSModalContent>
+      </IOSModal>
 
       {/* Session Detail Dialog */}
       <SessionDetailDialog

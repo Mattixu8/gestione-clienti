@@ -112,12 +112,12 @@ export function ClientForm({ client, onSubmit, onCancel, isLoading }: ClientForm
           )}
         />
 
-        <div className="flex justify-end gap-3 pt-4">
-          <Button type="button" variant="outline" onClick={onCancel}>
-            Annulla
-          </Button>
-          <Button type="submit" disabled={isLoading}>
+        <div className="flex flex-col gap-2 pt-4">
+          <Button type="submit" disabled={isLoading} className="w-full h-12 rounded-xl text-base font-medium">
             {isLoading ? "Salvataggio..." : client ? "Salva modifiche" : "Crea cliente"}
+          </Button>
+          <Button type="button" variant="ghost" onClick={onCancel} className="w-full h-12 rounded-xl text-base font-medium">
+            Annulla
           </Button>
         </div>
       </form>
