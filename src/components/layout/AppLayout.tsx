@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Users, Sparkles, ClipboardList, LayoutDashboard } from "lucide-react";
+import { PageTransition } from "./PageTransition";
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -80,9 +81,11 @@ export function AppLayout({ children }: AppLayoutProps) {
         </div>
       </nav>
 
-      {/* Main Content */}
-      <main className="container mx-auto px-4 py-6 pb-24 md:pb-6">
-        {children}
+      {/* Main Content with Page Transition */}
+      <main className="container mx-auto px-4 py-6 pb-24 md:pb-6 overflow-hidden">
+        <PageTransition key={location.pathname}>
+          {children}
+        </PageTransition>
       </main>
     </div>
   );
