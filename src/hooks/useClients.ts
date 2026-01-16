@@ -17,10 +17,10 @@ export interface Client {
 export interface ClientFormData {
   first_name: string;
   last_name: string;
-  phone?: string;
-  email?: string;
-  birth_date?: string;
-  notes?: string;
+  phone?: string | null;
+  email?: string | null;
+  birth_date?: string | null;
+  notes?: string | null;
 }
 
 export const useClients = () => {
