@@ -8,6 +8,7 @@ import {
   IOSModalTitle,
   IOSModalBody,
 } from "@/components/ui/ios-modal";
+import { PullToRefresh } from "@/components/ui/pull-to-refresh";
 import { Search, Plus, ClipboardList, Loader2 } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SessionCard } from "@/components/sessions/SessionCard";
@@ -19,6 +20,7 @@ import {
   TreatmentSession,
   TreatmentSessionFormData,
 } from "@/hooks/useTreatmentSessions";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function History() {
   const [search, setSearch] = useState("");
@@ -27,6 +29,7 @@ export default function History() {
 
   const { data: sessions, isLoading } = useTreatmentSessions();
   const createSession = useCreateTreatmentSession();
+  const queryClient = useQueryClient();
 
   const filteredSessions = sessions?.filter((session) => {
     const searchLower = search.toLowerCase();
@@ -48,64 +51,70 @@ export default function History() {
     });
   };
 
+  const handleRefresh = async () => {
+    await queryClient.invalidateQueries({ queryKey: ["treatment_sessions"] });
+  };
+
   return (
     <AppLayout>
-      <div className="space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Storico Trattamenti</h1>
-            <p className="text-muted-foreground">
-              Visualizza e gestisci tutte le sessioni registrate
-            </p>
+      <PullToRefresh onRefresh={handleRefresh}>
+        <div className="space-y-6">
+          {/* Header */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">Storico Trattamenti</h1>
+              <p className="text-muted-foreground">
+                Visualizza e gestisci tutte le sessioni registrate
+              </p>
+            </div>
+            <Button onClick={() => setShowForm(true)} className="rounded-xl">
+              <Plus className="h-4 w-4 mr-2" />
+              Nuova Sessione
+            </Button>
           </div>
-          <Button onClick={() => setShowForm(true)}>
-            <Plus className="h-4 w-4 mr-2" />
-            Nuova Sessione
-          </Button>
-        </div>
 
-        {/* Search */}
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Cerca per cliente, trattamento o operatore..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="pl-10"
-          />
-        </div>
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Cerca per cliente, trattamento o operatore..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-10 rounded-xl"
+            />
+          </div>
 
-        {/* Sessions List */}
-        {isLoading ? (
-          <div className="flex justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-          </div>
-        ) : filteredSessions?.length === 0 ? (
-          <div className="text-center py-12">
-            <ClipboardList className="h-12 w-12 mx-auto text-muted-foreground/50" />
-            <p className="mt-3 text-muted-foreground">
-              {search ? "Nessuna sessione trovata" : "Nessuna sessione registrata"}
-            </p>
-            {!search && (
-              <Button className="mt-4" onClick={() => setShowForm(true)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Registra la prima sessione
-              </Button>
-            )}
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {filteredSessions?.map((session) => (
-              <SessionCard
-                key={session.id}
-                session={session}
-                onViewDetails={setSelectedSession}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+          {/* Sessions List */}
+          {isLoading ? (
+            <div className="flex justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+            </div>
+          ) : filteredSessions?.length === 0 ? (
+            <div className="text-center py-12">
+              <ClipboardList className="h-12 w-12 mx-auto text-muted-foreground/50" />
+              <p className="mt-3 text-muted-foreground">
+                {search ? "Nessuna sessione trovata" : "Nessuna sessione registrata"}
+              </p>
+              {!search && (
+                <Button className="mt-4 rounded-xl" onClick={() => setShowForm(true)}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Registra la prima sessione
+                </Button>
+              )}
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {filteredSessions?.map((session) => (
+                <SessionCard
+                  key={session.id}
+                  session={session}
+                  onViewDetails={setSelectedSession}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </PullToRefresh>
 
       {/* Create Session iOS Modal */}
       <IOSModal open={showForm} onOpenChange={setShowForm}>
