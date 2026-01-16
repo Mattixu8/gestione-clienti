@@ -18,8 +18,6 @@ const clientSchema = z.object({
   first_name: z.string().min(1, "Il nome è obbligatorio"),
   last_name: z.string().min(1, "Il cognome è obbligatorio"),
   phone: z.string().optional(),
-  email: z.string().email("Email non valida").optional().or(z.literal("")),
-  birth_date: z.string().optional(),
   notes: z.string().optional(),
 });
 
@@ -37,8 +35,6 @@ export function ClientForm({ client, onSubmit, onCancel, isLoading }: ClientForm
       first_name: client?.first_name || "",
       last_name: client?.last_name || "",
       phone: client?.phone || "",
-      email: client?.email || "",
-      birth_date: client?.birth_date || "",
       notes: client?.notes || "",
     },
   });
@@ -46,9 +42,7 @@ export function ClientForm({ client, onSubmit, onCancel, isLoading }: ClientForm
   const handleSubmit = (data: ClientFormData) => {
     onSubmit({
       ...data,
-      email: data.email || undefined,
       phone: data.phone || undefined,
-      birth_date: data.birth_date || undefined,
       notes: data.notes || undefined,
     });
   };
@@ -86,44 +80,14 @@ export function ClientForm({ client, onSubmit, onCancel, isLoading }: ClientForm
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telefono</FormLabel>
-                <FormControl>
-                  <Input placeholder="+39 333 1234567" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="mario@esempio.it" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
         <FormField
           control={form.control}
-          name="birth_date"
+          name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Data di nascita</FormLabel>
+              <FormLabel>Telefono</FormLabel>
               <FormControl>
-                <Input type="date" {...field} />
+                <Input placeholder="+39 333 1234567" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
