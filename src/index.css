@@ -103,6 +103,10 @@
     @apply border-border;
   }
 
+  html {
+    touch-action: manipulation;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Inter', system-ui, sans-serif;

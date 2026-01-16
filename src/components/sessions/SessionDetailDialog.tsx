@@ -5,13 +5,15 @@ import {
   IOSModalHeader,
   IOSModalTitle,
   IOSModalBody,
+  IOSModalFooter,
 } from "@/components/ui/ios-modal";
+import { IOSAlert } from "@/components/ui/ios-alert";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Calendar, User, MessageSquare, Plus, Trash2, Loader2 } from "lucide-react";
-import { TreatmentSession, useSessionAnnotations, useCreateAnnotation, useDeleteAnnotation } from "@/hooks/useTreatmentSessions";
+import { TreatmentSession, useSessionAnnotations, useCreateAnnotation, useDeleteAnnotation, useDeleteTreatmentSession } from "@/hooks/useTreatmentSessions";
 import { format } from "date-fns";
 import { it } from "date-fns/locale";
 
@@ -23,9 +25,11 @@ interface SessionDetailDialogProps {
 
 export function SessionDetailDialog({ session, open, onOpenChange }: SessionDetailDialogProps) {
   const [newAnnotation, setNewAnnotation] = useState("");
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const { data: annotations, isLoading: loadingAnnotations } = useSessionAnnotations(session?.id);
   const createAnnotation = useCreateAnnotation();
   const deleteAnnotation = useDeleteAnnotation();
+  const deleteSession = useDeleteTreatmentSession();
 
   const handleAddAnnotation = () => {
     if (!session || !newAnnotation.trim()) return;
@@ -159,7 +163,35 @@ export function SessionDetailDialog({ session, open, onOpenChange }: SessionDeta
             </div>
           </div>
         </IOSModalBody>
+        <IOSModalFooter>
+          <Button
+            variant="destructive"
+            onClick={() => setShowDeleteAlert(true)}
+            className="w-full h-12 rounded-xl"
+          >
+            <Trash2 className="h-4 w-4 mr-2" />
+            Elimina Sessione
+          </Button>
+        </IOSModalFooter>
       </IOSModalContent>
+
+      {/* Delete Session Confirmation */}
+      <IOSAlert
+        open={showDeleteAlert}
+        onOpenChange={setShowDeleteAlert}
+        title="Eliminare la sessione?"
+        description="Questa azione eliminerà definitivamente la sessione e tutte le sue annotazioni. L'operazione non può essere annullata."
+        confirmText="Elimina"
+        onConfirm={() => {
+          deleteSession.mutate(session.id, {
+            onSuccess: () => {
+              setShowDeleteAlert(false);
+              onOpenChange(false);
+            },
+          });
+        }}
+        destructive
+      />
     </IOSModal>
   );
 }

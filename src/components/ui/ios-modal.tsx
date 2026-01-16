@@ -5,10 +5,12 @@ import { X } from "lucide-react";
 
 const IOSModal = ({
   shouldScaleBackground = true,
+  dismissible = false,
   ...props
-}: React.ComponentProps<typeof DrawerPrimitive.Root>) => (
+}: React.ComponentProps<typeof DrawerPrimitive.Root> & { dismissible?: boolean }) => (
   <DrawerPrimitive.Root
     shouldScaleBackground={shouldScaleBackground}
+    dismissible={dismissible}
     {...props}
   />
 );
