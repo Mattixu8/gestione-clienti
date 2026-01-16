@@ -47,7 +47,7 @@ export function SessionForm({ defaultClientId, onSubmit, onCancel, isLoading }: 
     defaultValues: {
       client_id: defaultClientId || "",
       treatment_type_id: "",
-      session_date: new Date().toISOString().slice(0, 16),
+      session_date: new Date().toISOString().slice(0, 10),
       operator_name: "",
       notes: "",
     },
@@ -111,9 +111,9 @@ export function SessionForm({ defaultClientId, onSubmit, onCancel, isLoading }: 
           name="session_date"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Data e ora *</FormLabel>
+              <FormLabel>Data *</FormLabel>
               <FormControl>
-                <Input type="datetime-local" {...field} />
+                <Input type="date" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
