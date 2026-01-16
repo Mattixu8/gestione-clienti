@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  IOSModal,
+  IOSModalContent,
+  IOSModalHeader,
+  IOSModalTitle,
+  IOSModalBody,
+} from "@/components/ui/ios-modal";
 import { Search, Plus, ClipboardList, Loader2 } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { SessionCard } from "@/components/sessions/SessionCard";
@@ -106,19 +107,21 @@ export default function History() {
         )}
       </div>
 
-      {/* Create Session Dialog */}
-      <Dialog open={showForm} onOpenChange={setShowForm}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Nuova Sessione</DialogTitle>
-          </DialogHeader>
-          <SessionForm
-            onSubmit={handleCreateSession}
-            onCancel={() => setShowForm(false)}
-            isLoading={createSession.isPending}
-          />
-        </DialogContent>
-      </Dialog>
+      {/* Create Session iOS Modal */}
+      <IOSModal open={showForm} onOpenChange={setShowForm}>
+        <IOSModalContent>
+          <IOSModalHeader onClose={() => setShowForm(false)}>
+            <IOSModalTitle>Nuova Sessione</IOSModalTitle>
+          </IOSModalHeader>
+          <IOSModalBody>
+            <SessionForm
+              onSubmit={handleCreateSession}
+              onCancel={() => setShowForm(false)}
+              isLoading={createSession.isPending}
+            />
+          </IOSModalBody>
+        </IOSModalContent>
+      </IOSModal>
 
       {/* Session Detail Dialog */}
       <SessionDetailDialog
