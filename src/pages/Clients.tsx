@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  IOSModal,
+  IOSModalContent,
+  IOSModalHeader,
+  IOSModalTitle,
+  IOSModalBody,
+} from "@/components/ui/ios-modal";
 import { Search, Plus, Users, Loader2 } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { ClientCard } from "@/components/clients/ClientCard";
@@ -47,7 +48,7 @@ export default function Clients() {
               Gestisci l'anagrafica dei tuoi clienti
             </p>
           </div>
-          <Button onClick={() => setShowForm(true)}>
+          <Button onClick={() => setShowForm(true)} className="rounded-xl">
             <Plus className="h-4 w-4 mr-2" />
             Nuovo Cliente
           </Button>
@@ -60,7 +61,7 @@ export default function Clients() {
             placeholder="Cerca per nome, telefono o email..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10"
+            className="pl-10 rounded-xl"
           />
         </div>
 
@@ -76,7 +77,7 @@ export default function Clients() {
               {search ? "Nessun cliente trovato" : "Nessun cliente registrato"}
             </p>
             {!search && (
-              <Button className="mt-4" onClick={() => setShowForm(true)}>
+              <Button className="mt-4 rounded-xl" onClick={() => setShowForm(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 Aggiungi il primo cliente
               </Button>
@@ -91,19 +92,21 @@ export default function Clients() {
         )}
       </div>
 
-      {/* Create Client Dialog */}
-      <Dialog open={showForm} onOpenChange={setShowForm}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle>Nuovo Cliente</DialogTitle>
-          </DialogHeader>
-          <ClientForm
-            onSubmit={handleCreateClient}
-            onCancel={() => setShowForm(false)}
-            isLoading={createClient.isPending}
-          />
-        </DialogContent>
-      </Dialog>
+      {/* Create Client iOS Modal */}
+      <IOSModal open={showForm} onOpenChange={setShowForm}>
+        <IOSModalContent>
+          <IOSModalHeader onClose={() => setShowForm(false)}>
+            <IOSModalTitle>Nuovo Cliente</IOSModalTitle>
+          </IOSModalHeader>
+          <IOSModalBody>
+            <ClientForm
+              onSubmit={handleCreateClient}
+              onCancel={() => setShowForm(false)}
+              isLoading={createClient.isPending}
+            />
+          </IOSModalBody>
+        </IOSModalContent>
+      </IOSModal>
     </AppLayout>
   );
 }
