@@ -42,8 +42,8 @@ export function ClientForm({ client, onSubmit, onCancel, isLoading }: ClientForm
   const handleSubmit = (data: ClientFormData) => {
     onSubmit({
       ...data,
-      phone: data.phone || undefined,
-      notes: data.notes || undefined,
+      phone: data.phone || null,
+      notes: data.notes || null,
     });
   };
 
