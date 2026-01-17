@@ -9,18 +9,20 @@ const IOSModal = ({
   snapPoints = [0.5, 1],
   activeSnapPoint,
   setActiveSnapPoint,
+  defaultSnap = 1,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root> & { 
   dismissible?: boolean;
   snapPoints?: (number | string)[];
   activeSnapPoint?: number | string | null;
   setActiveSnapPoint?: (snapPoint: number | string | null) => void;
+  defaultSnap?: number | string;
 }) => (
   <DrawerPrimitive.Root
     shouldScaleBackground={shouldScaleBackground}
     dismissible={dismissible}
     snapPoints={snapPoints}
-    activeSnapPoint={activeSnapPoint}
+    activeSnapPoint={activeSnapPoint ?? defaultSnap}
     setActiveSnapPoint={setActiveSnapPoint}
     {...props}
   />
