@@ -49,30 +49,64 @@ export function ClientForm({ client, onSubmit, onCancel, isLoading }: ClientForm
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col h-full">
+        <div className="flex-1 space-y-4 overflow-y-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={form.control}
+              name="first_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Nome *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Mario" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            
+            <FormField
+              control={form.control}
+              name="last_name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cognome *</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Rossi" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
           <FormField
             control={form.control}
-            name="first_name"
+            name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Nome *</FormLabel>
+                <FormLabel>Telefono</FormLabel>
                 <FormControl>
-                  <Input placeholder="Mario" {...field} />
+                  <Input placeholder="+39 333 1234567" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          
+
           <FormField
             control={form.control}
-            name="last_name"
+            name="notes"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Cognome *</FormLabel>
+                <FormLabel>Note</FormLabel>
                 <FormControl>
-                  <Input placeholder="Rossi" {...field} />
+                  <Textarea
+                    placeholder="Allergie, preferenze, note particolari..."
+                    rows={3}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -80,39 +114,7 @@ export function ClientForm({ client, onSubmit, onCancel, isLoading }: ClientForm
           />
         </div>
 
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Telefono</FormLabel>
-              <FormControl>
-                <Input placeholder="+39 333 1234567" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="notes"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Note</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Allergie, preferenze, note particolari..."
-                  rows={3}
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <div className="flex flex-col gap-2 pt-4">
+        <div className="flex flex-col gap-2 pt-4 mt-auto border-t border-border/50 -mx-4 px-4 pb-safe bg-background">
           <Button type="submit" disabled={isLoading} className="w-full h-12 rounded-xl text-base font-medium">
             {isLoading ? "Salvataggio..." : client ? "Salva modifiche" : "Crea cliente"}
           </Button>
