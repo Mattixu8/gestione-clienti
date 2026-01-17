@@ -150,29 +150,6 @@ export function SessionDetailDialog({ session, open, onOpenChange }: SessionDeta
                         className="rounded-xl"
                       />
                     </div>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="outline"
-                        onClick={handleCancelEdit}
-                        className="flex-1 h-10 rounded-xl"
-                        disabled={updateSession.isPending}
-                      >
-                        <X className="h-4 w-4 mr-1" />
-                        Annulla
-                      </Button>
-                      <Button
-                        onClick={handleSaveEdit}
-                        className="flex-1 h-10 rounded-xl"
-                        disabled={updateSession.isPending}
-                      >
-                        {updateSession.isPending ? (
-                          <Loader2 className="h-4 w-4 mr-1 animate-spin" />
-                        ) : (
-                          <Check className="h-4 w-4 mr-1" />
-                        )}
-                        Salva
-                      </Button>
-                    </div>
                   </div>
                 ) : (
                   <>
@@ -274,8 +251,32 @@ export function SessionDetailDialog({ session, open, onOpenChange }: SessionDeta
             )}
           </div>
         </IOSModalBody>
-        {!isEditing && (
-          <IOSModalFooter>
+        <IOSModalFooter>
+          {isEditing ? (
+            <div className="flex gap-2 w-full">
+              <Button
+                variant="outline"
+                onClick={handleCancelEdit}
+                className="flex-1 h-12 rounded-xl"
+                disabled={updateSession.isPending}
+              >
+                <X className="h-4 w-4 mr-1" />
+                Annulla
+              </Button>
+              <Button
+                onClick={handleSaveEdit}
+                className="flex-1 h-12 rounded-xl"
+                disabled={updateSession.isPending}
+              >
+                {updateSession.isPending ? (
+                  <Loader2 className="h-4 w-4 mr-1 animate-spin" />
+                ) : (
+                  <Check className="h-4 w-4 mr-1" />
+                )}
+                Salva
+              </Button>
+            </div>
+          ) : (
             <Button
               variant="destructive"
               onClick={() => setShowDeleteAlert(true)}
@@ -284,8 +285,8 @@ export function SessionDetailDialog({ session, open, onOpenChange }: SessionDeta
               <Trash2 className="h-4 w-4 mr-2" />
               Elimina Sessione
             </Button>
-          </IOSModalFooter>
-        )}
+          )}
+        </IOSModalFooter>
       </IOSModalContent>
 
       {/* Delete Session Confirmation */}
