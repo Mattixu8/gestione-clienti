@@ -87,7 +87,7 @@ export function SessionDetailDialog({ session, open, onOpenChange }: SessionDeta
 
   return (
     <IOSModal open={open} onOpenChange={onOpenChange}>
-      <IOSModalContent className="max-h-[90vh]">
+      <IOSModalContent className={isEditing ? "h-[75vh]" : "max-h-[90vh]"}>
         <IOSModalHeader onClose={() => onOpenChange(false)}>
           <IOSModalTitle>Dettagli Sessione</IOSModalTitle>
         </IOSModalHeader>
