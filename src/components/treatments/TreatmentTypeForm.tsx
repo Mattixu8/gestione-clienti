@@ -65,7 +65,7 @@ export function TreatmentTypeForm({ treatment, onSubmit, onCancel, isLoading }: 
               <FormControl>
                 <Textarea
                   placeholder="Descrizione del trattamento..."
-                  rows={3}
+                  rows={5}
                   {...field}
                 />
               </FormControl>
