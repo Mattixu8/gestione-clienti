@@ -190,10 +190,10 @@ export function SessionDetailDialog({ session, open, onOpenChange }: SessionDeta
                     )}
 
                     {session.notes && (
-                      <div className="p-3 rounded-xl bg-muted">
+                      <div className="p-3 rounded-xl bg-muted select-text">
                         <div className="flex items-start gap-2 text-sm">
-                          <MessageSquare className="h-4 w-4 mt-0.5 text-muted-foreground" />
-                          <span>{session.notes}</span>
+                          <MessageSquare className="h-4 w-4 mt-0.5 text-muted-foreground flex-shrink-0" />
+                          <span className="select-text break-words">{session.notes}</span>
                         </div>
                       </div>
                     )}
