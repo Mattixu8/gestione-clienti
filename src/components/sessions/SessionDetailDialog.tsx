@@ -91,10 +91,10 @@ export function SessionDetailDialog({ session, open, onOpenChange }: SessionDeta
         <IOSModalHeader onClose={() => onOpenChange(false)}>
           <IOSModalTitle>Dettagli Sessione</IOSModalTitle>
         </IOSModalHeader>
-        <IOSModalBody className="overflow-y-auto">
-          <div className="space-y-4">
+        <IOSModalBody className={`overflow-y-auto ${isEditing ? "flex flex-col" : ""}`}>
+          <div className={`${isEditing ? "flex flex-col flex-1" : "space-y-4"}`}>
             {/* Session Info */}
-            <div className="space-y-3">
+            <div className={`${isEditing ? "flex flex-col flex-1" : "space-y-3"}`}>
               <div className="flex items-center justify-between">
                 <Badge variant="secondary" className="bg-primary/10 text-primary rounded-full">
                   {session.treatment_types?.name}
@@ -112,7 +112,7 @@ export function SessionDetailDialog({ session, open, onOpenChange }: SessionDeta
                 )}
               </div>
 
-              <div className="space-y-2">
+              <div className={`${isEditing ? "flex flex-col flex-1" : "space-y-2"}`}>
                 <div className="flex items-center gap-2 text-sm">
                   <Calendar className="h-4 w-4 text-muted-foreground" />
                   <span>
@@ -128,7 +128,7 @@ export function SessionDetailDialog({ session, open, onOpenChange }: SessionDeta
                 )}
 
                 {isEditing ? (
-                  <div className="space-y-3 pt-2">
+                  <div className="flex flex-col flex-1 space-y-3 pt-2">
                     <div className="space-y-2">
                       <Label htmlFor="operator">Operatore</Label>
                       <Input
@@ -139,15 +139,14 @@ export function SessionDetailDialog({ session, open, onOpenChange }: SessionDeta
                         className="rounded-xl"
                       />
                     </div>
-                    <div className="space-y-2">
+                    <div className="flex flex-col flex-1 space-y-2">
                       <Label htmlFor="notes">Note</Label>
                       <Textarea
                         id="notes"
                         placeholder="Aggiungi note sulla sessione..."
                         value={editedNotes}
                         onChange={(e) => setEditedNotes(e.target.value)}
-                        rows={3}
-                        className="rounded-xl"
+                        className="rounded-xl flex-1 min-h-[120px] resize-none"
                       />
                     </div>
                   </div>
