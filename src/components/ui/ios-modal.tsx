@@ -45,7 +45,7 @@ const IOSModalContent = React.forwardRef<
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed inset-x-0 bottom-0 z-50 flex h-[90vh] flex-col rounded-t-[20px] bg-background shadow-xl",
+        "fixed inset-x-0 bottom-0 z-50 flex max-h-[90vh] flex-col rounded-t-[20px] bg-background shadow-xl",
         className
       )}
       {...props}

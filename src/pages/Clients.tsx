@@ -107,7 +107,7 @@ export default function Clients() {
           <IOSModalHeader onClose={() => setShowForm(false)}>
             <IOSModalTitle>Nuovo Cliente</IOSModalTitle>
           </IOSModalHeader>
-          <IOSModalBody>
+          <IOSModalBody className="flex-1 overflow-hidden">
             <ClientForm
               onSubmit={handleCreateClient}
               onCancel={() => setShowForm(false)}
