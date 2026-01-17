@@ -6,24 +6,13 @@ import { X } from "lucide-react";
 const IOSModal = ({
   shouldScaleBackground = true,
   dismissible = false,
-  snapPoints = [0.5, 1],
-  activeSnapPoint,
-  setActiveSnapPoint,
-  defaultSnap = 1,
   ...props
 }: React.ComponentProps<typeof DrawerPrimitive.Root> & { 
   dismissible?: boolean;
-  snapPoints?: (number | string)[];
-  activeSnapPoint?: number | string | null;
-  setActiveSnapPoint?: (snapPoint: number | string | null) => void;
-  defaultSnap?: number | string;
 }) => (
   <DrawerPrimitive.Root
     shouldScaleBackground={shouldScaleBackground}
     dismissible={dismissible}
-    snapPoints={snapPoints}
-    activeSnapPoint={activeSnapPoint ?? defaultSnap}
-    setActiveSnapPoint={setActiveSnapPoint}
     {...props}
   />
 );
@@ -56,13 +45,13 @@ const IOSModalContent = React.forwardRef<
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[20px] bg-background shadow-xl",
+        "fixed inset-x-0 bottom-0 z-50 flex h-[90vh] flex-col rounded-t-[20px] bg-background shadow-xl",
         className
       )}
       {...props}
     >
-      {/* iOS-style handle - draggable */}
-      <div className="mx-auto mt-3 mb-2 h-1.5 w-12 shrink-0 rounded-full bg-muted-foreground/40 cursor-grab active:cursor-grabbing" />
+      {/* iOS-style handle */}
+      <div className="mx-auto mt-3 mb-2 h-1.5 w-12 shrink-0 rounded-full bg-muted-foreground/40" />
       {children}
     </DrawerPrimitive.Content>
   </IOSModalPortal>
