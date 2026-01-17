@@ -2,6 +2,7 @@ import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Users, Sparkles, ClipboardList, LayoutDashboard } from "lucide-react";
 import { PageTransition } from "./PageTransition";
+import { NailIcon } from "../icons/NailIcon";
 interface AppLayoutProps {
   children: React.ReactNode;
 }
@@ -33,7 +34,7 @@ export function AppLayout({
           <div className="flex h-16 items-center justify-between">
             <Link to="/" className="flex items-center gap-2">
               <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-                <Sparkles className="h-5 w-5 text-primary-foreground" />
+                <NailIcon className="h-5 w-5 text-primary-foreground" />
               </div>
               <span className="text-xl font-semibold text-foreground">
                 Gestione Clienti 
