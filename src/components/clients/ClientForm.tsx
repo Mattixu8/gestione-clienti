@@ -104,7 +104,7 @@ export function ClientForm({ client, onSubmit, onCancel, isLoading }: ClientForm
                 <FormControl>
                   <Textarea
                     placeholder="Allergie, preferenze, note particolari..."
-                    rows={3}
+                    rows={5}
                     {...field}
                   />
                 </FormControl>
