@@ -128,7 +128,7 @@ const IOSModalBody = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn("flex-1 overflow-y-auto px-4 py-4", className)}
+    className={cn("flex-1 overflow-y-auto px-4 py-4 touch-action-auto", className)}
     {...props}
   />
 );
